@@ -1,0 +1,61 @@
+﻿@model DevIO.App.ViewModels.ProdutoViewModel
+
+@{
+    ViewData["Title"] = "Detalhe do Produto - " + Model.Nome;
+}
+
+<h4 style="padding-top: 50px">@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/imagens/@Model.Imagem" alt="@Model.Imagem" style="width: 300px; height: 428px" />
+    </div>
+    <div class="col-md-6">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.FornecedorId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Fornecedor.Nome)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Descricao)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Valor)
+            </dt>
+            <dd>
+                @*exibi o valor da moeda conforme cultura configurada*@
+                @Model.Valor.ToString("C") 
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DataCadastro)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DataCadastro)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Ativo)
+            </dd>
+        </dl>
+
+        <div>
+            <a disable-by-claim-name="Produto" disable-by-claim-value="Editar" class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+            @*Esse retorno via java escript é um retorno de uma pagia anterior, não é um redirecionamento
+            constumamo fazer*@
+            <a class="btn btn-secondary" href="javascript:window.history.back();">Voltar</a>
+        </div>
+    </div>
+</div>

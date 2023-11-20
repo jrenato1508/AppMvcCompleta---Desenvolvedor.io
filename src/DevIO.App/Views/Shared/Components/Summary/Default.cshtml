@@ -1,0 +1,44 @@
+﻿
+@*Caso a ModelState contenha algum erro, ele será exibido dentro desse viewcompent que criamos. Esse viewcomponet pode ser usado como TagHelper
+  que pode ser adicionado dentro das  nossas views Create,edit e delete e onde mais quisermos adicionar.
+  ex: <vc:Summary></vc:Summary>
+*@
+
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    <div style="padding-top: 15px;"></div>
+
+    <div class="alert alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <h3 id="msgRetorno" style="padding-top: 20px">Opa! Algo deu errado :(</h3>
+        <div style="padding-top: 20px" asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+
+}
+
+
+@*Será exibido uma mensagem de sucesso caso a string não for nula ou fazia. Se a ViewBag.Sucesso não for nula e nem vazia será exibida a mensagem
+  de sucesso
+*@
+@if (!string.IsNullOrEmpty(ViewBag.Sucesso))
+{
+    <div style="padding-top: 15px"></div>
+
+    <div id="msg_box" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h3 id="msgRetorno">@ViewBag.Sucesso</h3>
+    </div>
+}
+
+@*Estamos fazendo a mesma coisa do que o if acima que olha pra uma Viewbag  só que olhando para um TemData caso haja algum redirecionamento
+*@
+@if (TempData["Sucesso"] != null)
+{
+    <div style="padding-top: 15px"></div>
+
+    <div id="msg_box" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4 id="msgRetorno">@Html.Raw(TempData["Sucesso"].ToString())</h4>
+    </div>
+}
+

@@ -1,0 +1,43 @@
+﻿using DevIO.Business.Interfaces;
+using DevIO.Business.Models;
+using DevIO.Data.Context;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DevIO.Data.Repository
+{
+    #region Comentário IMPORTANTE : base(db)
+    /* 
+     Comentário da classe Repository
+     Esse metodo contrutor irá causar um problema nas 3 classes(FornecedorRepository,ProdutoRepository,EnderecoRepository)
+     que herdarão o repository, visto que a classe Repository recebe uma assinatura(parametro) no metodo construtor. Tendo
+     em conta que a clase se inicia através do metodo construtor, as classes que herdarem Repository, terão que passar para
+     a clase base(Repository) a assinatura do metodo.
+     Ex: public produtosRepository(MeuDbContext db) : base(db) {}
+         public FornecedorRepository(MeuDbContext db) : base(db) {}
+         public EnderecoRepository(MeuDbContext db) : base(db) {}
+     */
+    #endregion
+    public class FornecedorRepository : Repository<Fornecedor> , IFornecedorRepository
+    {
+        public FornecedorRepository(MeuDbContext db) : base(db){}
+
+        public async Task<Fornecedor> ObterFornecedorEndereco(Guid id)
+        {
+            return await _context.Fornecedores.AsNoTracking().Include(x => x.Endereco)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Fornecedor> ObterFornecedorProdutosEndereco(Guid id)
+        {
+            return await _context.Fornecedores.AsNoTracking()
+                .Include(x => x.Produtos)
+                .Include(x => x.Endereco)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+    }
+}
